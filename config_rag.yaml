@@ -1,0 +1,91 @@
+cohere:
+  api_key: "8yXT7VYDm158JfU9OF5D00DBDU4doKMzZLA80qhA"
+  name: "rerank-english-v3.0"
+  temp: 0
+
+chunking:
+  chunk_size: 1024
+  overlap: 150
+
+embeddings:
+  name: "sentence-transformers/all-MiniLM-l6-v2"
+  kwargs:
+    device: "cuda:0"
+  encode_kwargs: 
+    normalize_embeddings: True
+
+phi:
+  api_key: "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"
+  project: "RAG_Phi-3.5-mini"
+  name: "microsoft/Phi-3.5-mini-instruct"
+  temp: 0.0
+  max_new_tokens: 150
+  repetition_penalty: 1
+  pad_token_id: 32000
+  device_map: "cuda:0"
+  torch_dtype: "auto"
+  attn_impl: "eager"
+  trust_remote_code: True
+  tokenizer:
+    name: "microsoft/Phi-3.5-mini-instruct"
+    padding: True
+    truncation: False
+    skip_special_tokens: True
+    return_tensors: "pt"
+  prompt: |
+          Using the following context: {context}.
+          Provide the answer to the following question without any further explanation or follow-up. Question: {question}
+           
+
+falcon:
+  api_key: "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"
+  project: "FALCON_7B_RAG"
+  name: "tiiuae/falcon-7b-instruct"
+  temp: 0.0
+  max_new_tokens: 100
+  repetition_penalty: 1.2
+  pad_token_id: 11
+  device_map: "cuda:0"
+  tokenizer:
+    name:  "tiiuae/falcon-7b-instruct"
+    padding: True
+    truncation: False
+    skip_special_tokens: True
+    return_tensors: "pt"
+  prompt: |
+          Using the following context: {context}.
+          Provide the answer to the following question without any further explanation or follow-up. Question: {question}
+
+llama:
+  api_key: "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"
+  project: "Llama3RAG"
+  name: "/content/drive/MyDrive/llama-3-8b"
+  temp: 0.0
+  max_new_tokens: 50
+  repetition_penalty: 1.1
+  pad_token_id: 128001
+  device_map: "cuda:0"
+  tokenizer:
+    name: "/content/drive/MyDrive/llama-3-8b-tokenizer"
+    padding: True
+    truncation: False  
+    skip_special_tokens: True
+    return_tensors: "pt"   
+  prompt: |
+          Using the following context: {context}.
+          Provide only the answer to the following question without any further explanation or follow-up. Question: {question}   
+
+retriever:
+  search_type: "similarity"
+  top_match: 20
+
+quantization:
+  load_in_4bit: True
+  bnb_4bit_quant_type: "nf4"
+  low_cpu_mem_usage: True
+
+allow_dangerous_deserialization: True  
+
+gradio:
+  share: True
+  debug: True
